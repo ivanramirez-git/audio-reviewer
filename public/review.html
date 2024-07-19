@@ -9,16 +9,21 @@
 <body>
   <h1>Review Audio</h1>
   <audio id="audio-player" controls></audio>
-  <div>
-    <h2>Original Transcription</h2>
-    <pre id="original-transcription"></pre>
+  <div class="container">
+    <div class="column">
+      <h2>Original Transcription</h2>
+      <pre id="original-transcription"></pre>
+    </div>
+    <div class="column">
+      <h2>Human Correction</h2>
+      <textarea id="human-correction" rows="20" cols="50"></textarea>
+      <div>
+        <label for="review-percentage">Porcentaje de Revisión: </label>
+        <span id="review-percentage">0%</span>
+      </div>
+      <button id="back-button">Volver</button>
+    </div>
   </div>
-  <div>
-    <h2>Human Correction</h2>
-    <textarea id="human-correction" rows="10" cols="50"></textarea>
-  </div>
-  <button id="back-button">Volver</button>
-
   <script src="/js/review.js"></script>
 </body>
 </html>
