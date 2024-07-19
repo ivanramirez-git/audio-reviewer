@@ -1,6 +1,4 @@
-Aquí tienes un ejemplo detallado de un `README.md` para tu proyecto:
 
-```markdown
 # Audio Transcription Review
 
 Esta aplicación permite revisar y corregir transcripciones de audio. Proporciona una interfaz para cargar y revisar archivos JSON con transcripciones de audio, reproducir audios, y realizar correcciones en tiempo real.
@@ -130,7 +128,3 @@ Las contribuciones son bienvenidas. Si tienes alguna mejora o corrección, por f
 ## Licencia
 
 Este proyecto está licenciado bajo la Licencia MIT.
-
----
-
-Este README proporciona instrucciones detalladas para configurar y utilizar la aplicación, incluyendo cómo convertir archivos CSV a JSON y cómo estructurar los archivos necesarios para la aplicación.
