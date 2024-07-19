@@ -39,7 +39,6 @@ Ejemplo de `audios.json`:
     "human_correction": "acá medinología buenos días...",
     "review_percentage": 0
   }
-  // otras entradas
 ]
 ```
 
