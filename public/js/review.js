@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const humanCorrectionTextarea = document.getElementById('human-correction');
       const reviewPercentageElement = document.getElementById('review-percentage');
 
+      let lastLoggedPercentage = 0;
+
       document.getElementById('original-transcription').textContent = audio.original_transcription;
       humanCorrectionTextarea.value = audio.human_correction;
       reviewPercentageElement.textContent = `${audio.review_percentage}%`;
@@ -26,6 +28,13 @@ document.addEventListener('DOMContentLoaded', function () {
         audio.review_percentage = percentage.toFixed(2);
         reviewPercentageElement.textContent = `${audio.review_percentage}%`;
 
+        // Solo imprime en la consola si el porcentaje actual es múltiplo de 10
+        if (Math.floor(percentage / 10) > lastLoggedPercentage) {
+          lastLoggedPercentage = Math.floor(percentage / 10);
+          console.log(`${lastLoggedPercentage * 10}%`);
+        }
+
+        // Actualiza los datos en el servidor
         fetch('/api/audios', {
           method: 'POST',
           headers: {
