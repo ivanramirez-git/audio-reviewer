@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
       const audioPlayer = document.getElementById('audio-player');
       const humanCorrectionTextarea = document.getElementById('human-correction');
       const reviewPercentageElement = document.getElementById('review-percentage');
-
+      const relevantWordsTextarea = document.getElementById('relevant-words');
       let lastLoggedPercentage = 0;
 
       document.getElementById('original-transcription').textContent = audio.original_transcription;
       humanCorrectionTextarea.value = audio.human_correction;
+
       reviewPercentageElement.textContent = `${audio.review_percentage}%`;
 
       audioPlayer.src = audio.audio_file_name;
@@ -28,20 +29,44 @@ document.addEventListener('DOMContentLoaded', function () {
         audio.review_percentage = percentage.toFixed(2);
         reviewPercentageElement.textContent = `${audio.review_percentage}%`;
 
-        // Solo imprime en la consola si el porcentaje actual es múltiplo de 10
-        if (Math.floor(percentage / 10) > lastLoggedPercentage) {
-          lastLoggedPercentage = Math.floor(percentage / 10);
-          console.log(`${lastLoggedPercentage * 10}%`);
-        }
+        const currentPercentage = Math.floor(percentage / 10) * 10;
 
-        // Actualiza los datos en el servidor
-        fetch('/api/audios', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        });
+        if (currentPercentage > lastLoggedPercentage) {
+          lastLoggedPercentage = currentPercentage;
+          console.log(`${lastLoggedPercentage}%`);
+
+          fetch('/api/audios', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+
+          // Ejecuta el fetch a /api/audios/analyze solo si el porcentaje es múltiplo de 10
+          const texto = humanCorrectionTextarea.value;
+
+          fetch('/api/audios/analyze', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ texto })
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Response from analyze endpoint:', data);
+            relevantWordsTextarea.value = data
+          })
+          .catch(error => {
+            console.error('Error making request:', error);
+          });
+        }
       });
 
       humanCorrectionTextarea.addEventListener('input', function () {
@@ -54,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
           body: JSON.stringify(data)
         });
       });
+
     });
 
   document.getElementById('back-button').addEventListener('click', function () {
