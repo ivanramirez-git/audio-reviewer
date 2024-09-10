@@ -1,3 +1,4 @@
+require('dotenv').config();
 // Enum y clases de error
 
 // Enum para definir los diferentes modelos de LLM (Large Language Models) que se pueden usar
@@ -62,10 +63,10 @@ function buildBody(prompt, llm, templateName) {
 
 // Función que interactúa con el servicio de Maistro utilizando fetch
 async function llmService(prompt, { llm = LLM.gpt_4o } = {}) {
-    const apiKey = '-'; // API Key
-    const instanceId = '-'; // Instance ID
-    const templateName = '-'; // Template name
-    const hostname = '-'; // Hostname
+    const apiKey = process.env.NEURALSEEK_API_KEY // API Key
+    const instanceId = process.env.NEURALSEEK_INSTANCE_ID  // Instance ID
+    const templateName = process.env.MAISTRO_TEMPLATES_LLM_TEMPLATE // Template name
+    const hostname = process.env.HOST_NAME  // Hostname
 
     console.log('llmService', prompt, llm);
 
